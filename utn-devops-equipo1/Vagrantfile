@@ -33,6 +33,9 @@ Vagrant.configure("2") do |config|
   #Permite descargas con certificados vencidos o por http
   config.vm.box_download_insecure = true
 
+  #para evitar tema de permisos
+  config.ssh.insert_key = false
+
 
   # configuración del nombre de maquina
   config.vm.hostname = "utn-devops.localhost"

@@ -25,9 +25,9 @@ fi
 
 ## configuración servidor web
 #copio el archivo de configuración del repositorio en la configuración del servidor web
-if [ -f "/tmp/devops.site.conf" ]; then
+if [ -f "/tmp/equipo1.site.conf" ]; then
 	echo "Copio el archivo de configuracion de apache"
-	sudo mv /tmp/devops.site.conf /etc/apache2/sites-available
+	sudo mv /tmp/equipo1.site.conf /etc/apache2/sites-available
 	#activo el nuevo sitio web
 	sudo a2ensite equipo1.site.conf
 	#desactivo el default
@@ -40,7 +40,7 @@ fi
 # ruta raíz del servidor web
 APACHE_ROOT="/var/www"
 # ruta de la aplicación
-APP_PATH="$APACHE_ROOT/utnweb"
+APP_PATH="$APACHE_ROOT/UTNWEB"
 
 if [ ! -d "$APACHE_ROOT" ]; then
 	sudo mkdir -p $APACHE_ROOT
@@ -52,4 +52,3 @@ if [ ! -d "$APP_PATH" ]; then
 	cd $APACHE_ROOT
 	sudo git clone https://github.com/DiegoWasiejko/UTNWEB
 fi
-
