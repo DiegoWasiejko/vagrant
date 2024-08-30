@@ -2,11 +2,27 @@
 
 ### Aprovisionamiento de software ###
 
-# Actualizo los paquetes de la maquina virtual
-sudo apt-get update
+#Actualizo los paquetes disponibles de la VM
+sudo apt-get update -y
 
-# Instalo un servidor web
-sudo apt-get install -y apache2
+#Desintalo el servidor web instalado previamente en la unidad 1,
+# a partir de ahora va a estar en un contenedor de Docker.
+if [ -x "$(command -v apache2)" ];then
+	sudo apt-get remove --purge apache2 -y
+	sudo apt autoremove -y
+fi
+
+# Directorio para los archivos de la base de datos MySQL. El servidor de la base de datos
+# es instalado mediante una imagen de Docker. Esto está definido en el archivo
+# docker-compose.yml
+if [ ! -d "/var/db/mysql" ]; then
+	sudo mkdir -p /var/db/mysql
+fi
+
+# Muevo el archivo de configuración de firewall al lugar correspondiente
+if [ -f "/tmp/ufw" ]; then
+	sudo mv -f /tmp/ufw /etc/default/ufw
+fi
 
 ### Configuración del entorno ###
 
