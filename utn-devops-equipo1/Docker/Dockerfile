@@ -1,6 +1,6 @@
 # Nombre base de la imagen Docker que vamos a utilizar
-# En este caso la imagen es la que está en el repositorio de Hub de Docker y 
-# es la imagen oficial de PHP. El resto de la configuración la tendremos en el 
+# En este caso la imagen es la que está en el repositorio de Hub de Docker y
+# es la imagen oficial de PHP. El resto de la configuración la tendremos en el
 # archivo docker-compose.yml
 FROM php:7.4-apache
 
@@ -11,9 +11,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y libmcrypt-dev \
     zip \
     zlib1g-dev \
     libzip-dev \
-    libonig-dev 
+    libonig-dev
 
-RUN pecl install imagick 
+RUN pecl install imagick
 RUN docker-php-ext-install pdo_mysql zip mbstring xml \
     && a2enmod rewrite
 

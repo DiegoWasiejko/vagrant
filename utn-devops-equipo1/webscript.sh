@@ -52,3 +52,34 @@ if [ ! -d "$APP_PATH" ]; then
 	cd $APACHE_ROOT
 	sudo git clone https://github.com/DiegoWasiejko/UTNWEB
 fi
+
+cd $APP_PATH
+sudo git checkout unidad-2
+
+######## Instalacion de DOCKER ########
+#
+# Esta instalación de docker es para demostrar el aprovisionamiento
+# complejo mediante Vagrant. La herramienta Vagrant por si misma permite
+# un aprovisionamiento de container mediante el archivo Vagrantfile. A fines
+# del ejemplo que se desea mostrar en esta unidad que es la instalación mediante paquetes del
+# software Docker este ejemplo es suficiente, para un uso más avanzado de Vagrant
+# se puede consultar la documentación oficial en https://www.vagrantup.com
+#
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+if [ ! -x "$(command -v docker)" ]; then
+	sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg
+
+	##Configuramos el repositorio
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	sudo chmod a+r /usr/share/keyrings/docker-archive-keyring.gpg
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+	#Actualizo los paquetes con los nuevos repositorios
+	sudo apt-cache policy docker-ce
+	sudo apt-get update -y
+	#Instalo docker desde el repositorio oficial
+	sudo apt-get -y  install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-compose
+
+	#Lo configuro para que inicie en el arranque
+	sudo systemctl enable docker
+fi
